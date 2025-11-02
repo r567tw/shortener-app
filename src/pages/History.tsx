@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { type ShortUrl } from "../types";
+import { API_BASE_URL } from "../config";
 
 const History: React.FC = () => {
   const [records, setRecords] = useState<ShortUrl[]>([]);
@@ -10,7 +11,7 @@ const History: React.FC = () => {
     async function fetchData() {
       const token = localStorage.getItem("jwt");
       const { data } = await axios.get<ShortUrl[]>(
-        "https://project.r567tw.cc/api/history",
+        `${API_BASE_URL}/short-url`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

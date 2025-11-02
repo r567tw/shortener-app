@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -8,7 +9,7 @@ const Login: React.FC = () => {
   async function handleLogin() {
     try {
       const { data } = await axios.post<{ token: string }>(
-        "https://project.r567tw.cc/api/login",
+        `${API_BASE_URL}/login`,
         {
           email,
           password,

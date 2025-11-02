@@ -2,9 +2,10 @@ import { useState } from "react";
 import axios from "axios";
 // import QRCode from "qrcode.react"; // Todo: 晚一點在處理 QRcode 的問題
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 interface ShortenResponse {
-  short_url: string;
+  short: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -15,11 +16,11 @@ const Dashboard: React.FC = () => {
     try {
       const token = localStorage.getItem("jwt");
       const { data } = await axios.post<ShortenResponse>(
-        "/api/shorten",
+        `${API_BASE_URL}/short-url`,
         { url },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setShortUrl(data.short_url);
+      setShortUrl(data.short);
     } catch {
       alert("生成失敗");
     }
