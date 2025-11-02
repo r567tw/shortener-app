@@ -9,9 +9,12 @@ const History: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       const token = localStorage.getItem("jwt");
-      const { data } = await axios.get<ShortUrl[]>("/api/history", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.get<ShortUrl[]>(
+        "https://project.r567tw.cc/api/history",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setRecords(data);
     }
     fetchData();
