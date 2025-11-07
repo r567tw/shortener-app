@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { type ShortUrl } from "../types";
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL, BASE_URL } from "../config";
 
 const History: React.FC = () => {
   const [records, setRecords] = useState<ShortUrl[]>([]);
@@ -10,13 +10,13 @@ const History: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       const token = localStorage.getItem("jwt");
-      const { data } = await axios.get<ShortUrl[]>(
-        `${API_BASE_URL}/short-url`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setRecords(data);
+      const result = await axios.get(`${API_BASE_URL}/short-url`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+      setRecords(result.data.data);
     }
     fetchData();
   }, []);
@@ -29,20 +29,19 @@ const History: React.FC = () => {
       </Link>
       <ul className="mt-4 space-y-2">
         {records.map((r) => (
-          <li key={r.id} className="border p-2 rounded">
-            <p>原始網址：{r.original_url}</p>
+          <li key={r.short} className="border p-2 rounded">
+            <p>原始網址：{r.url}</p>
             <p>
               短網址：
               <a
                 className="text-blue-600"
-                href={r.short_url}
+                href={`${BASE_URL}/s/${r.short}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                {r.short_url}
+                {r.short}
               </a>
             </p>
-            <p>建立時間：{new Date(r.created_at).toLocaleString()}</p>
           </li>
         ))}
       </ul>

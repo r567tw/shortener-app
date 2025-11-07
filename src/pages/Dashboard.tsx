@@ -2,11 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 // import QRCode from "qrcode.react"; // Todo: 晚一點在處理 QRcode 的問題
 import { Link } from "react-router-dom";
-import { API_BASE_URL } from "../config";
-
-interface ShortenResponse {
-  short: string;
-}
+import { API_BASE_URL, BASE_URL } from "../config";
 
 const Dashboard: React.FC = () => {
   const [url, setUrl] = useState("");
@@ -15,12 +11,13 @@ const Dashboard: React.FC = () => {
   async function generate() {
     try {
       const token = localStorage.getItem("jwt");
-      const { data } = await axios.post<ShortenResponse>(
+      const result = await axios.post(
         `${API_BASE_URL}/short-url`,
         { url },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setShortUrl(data.short);
+
+      setShortUrl(result.data.data.short);
     } catch {
       alert("生成失敗");
     }
@@ -51,11 +48,15 @@ const Dashboard: React.FC = () => {
         <div className="mt-4 text-center">
           <p className="font-semibold text-blue-600">
             生成短網址：
-            <a href={shortUrl} target="_blank" rel="noreferrer">
+            <a
+              href={`${BASE_URL}/s/${shortUrl}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {BASE_URL}/s/
               {shortUrl}
             </a>
           </p>
-          {/* <QRCode value={shortUrl} size={128} className="mt-2" /> */}
         </div>
       )}
 
