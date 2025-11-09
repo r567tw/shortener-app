@@ -1,0 +1,31 @@
+import { Link, useLocation } from "react-router-dom";
+
+export default function Navbar() {
+  const isLogin = localStorage.getItem("jwt") !== null;
+
+  const location = useLocation();
+  function logout() {
+    localStorage.removeItem("jwt");
+    window.location.href = "/login";
+  }
+  return (
+    <nav className="w-full flex justify-end items-center bg-gray-100 px-6 py-3 mb-8 shadow">
+      <div className="flex-grow">
+        <h1 className="text-2xl font-bold">短網址系統</h1>
+      </div>
+      {isLogin && (
+        <>
+          <Link className="text-green-600 mr-6" to="/">
+            短網址生成
+          </Link>
+          <Link className="text-blue-500 mr-6" to="/history">
+            查看歷史紀錄
+          </Link>
+          <button className="text-red-500" onClick={logout}>
+            登出
+          </button>
+        </>
+      )}
+    </nav>
+  );
+}
