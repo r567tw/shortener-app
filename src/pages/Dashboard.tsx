@@ -1,8 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 // import QRCode from "qrcode.react"; // Todo: 晚一點在處理 QRcode 的問題
 import { API_BASE_URL, BASE_URL } from "../config";
 import Navbar from "../components/Navbar";
+
+function GoldPrice() {
+  const [buyPrice, setBuyPrice] = useState<number | null>(null);
+  const [sellPrice, setSellPrice] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetchGoldPrice();
+  }, []);
+
+  async function fetchGoldPrice() {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/gold-price`);
+      setBuyPrice(response.data.gold_buy_price);
+      setSellPrice(response.data.gold_sell_price);
+    } catch (error) {
+      console.error("Error fetching gold price:", error);
+    }
+  }
+
+  return (
+    <div>
+      <h2 className="text-xl font-bold">即時金價</h2>
+      {buyPrice !== null && sellPrice !== null && (
+        <div className="mt-4">
+          <p>買入價：{buyPrice} 元/克</p>
+          <p>賣出價：{sellPrice} 元/克</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 const Dashboard: React.FC = () => {
   const [url, setUrl] = useState("");
@@ -56,6 +87,9 @@ const Dashboard: React.FC = () => {
             </p>
           </div>
         )}
+      </div>
+      <div className="mt-12 flex justify-center">
+        <GoldPrice />
       </div>
     </>
   );
