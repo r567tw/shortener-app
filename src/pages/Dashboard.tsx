@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import QRCode from "qrcode.react"; // Todo: 晚一點在處理 QRcode 的問題
 import { API_BASE_URL, BASE_URL } from "../config";
 import Navbar from "../components/Navbar";
+import { QRCodeSVG } from "qrcode.react";
 
 function GoldPrice() {
   const [buyPrice, setBuyPrice] = useState<number | null>(null);
@@ -84,6 +84,10 @@ const Dashboard: React.FC = () => {
               >
                 {BASE_URL}/s/{shortUrl}
               </a>
+              <p>掃描以下 QRCode 以訪問短網址：</p>
+              <div className="mt-6 flex justify-center">
+                <QRCodeSVG value={`${BASE_URL}/s/${shortUrl}`} />
+              </div>
             </p>
           </div>
         )}
