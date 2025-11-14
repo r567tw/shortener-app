@@ -1,9 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const isLogin = localStorage.getItem("jwt") !== null;
 
-  const location = useLocation();
   function logout() {
     localStorage.removeItem("jwt");
     window.location.href = "/login";
