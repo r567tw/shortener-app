@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const isLogin = localStorage.getItem("jwt") !== null;
+  const navigate = useNavigate();
 
   function logout() {
     localStorage.removeItem("jwt");
-    window.location.href = "/login";
+    navigate("/login", { replace: true });
   }
+
   return (
     <nav className="w-full flex justify-end items-center bg-gray-100 px-6 py-3 mb-8 shadow">
       <div className="flex-grow">
