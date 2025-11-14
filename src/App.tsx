@@ -1,5 +1,5 @@
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -12,7 +12,7 @@ import History from "./pages/History";
 const App: React.FC = () => {
   const token = localStorage.getItem("jwt");
   return (
-    <Router basename="/shortener-app">
+    <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route
