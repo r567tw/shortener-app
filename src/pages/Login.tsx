@@ -2,10 +2,12 @@ import { useState } from "react";
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   async function handleLogin() {
     try {
@@ -17,7 +19,7 @@ const Login: React.FC = () => {
         }
       );
       localStorage.setItem("jwt", data.token);
-      window.location.href = "/";
+      navigate("/");
     } catch {
       alert("登入失敗");
     }
