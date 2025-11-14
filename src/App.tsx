@@ -12,7 +12,7 @@ import History from "./pages/History";
 const App: React.FC = () => {
   const token = localStorage.getItem("jwt");
   return (
-    <Router>
+    <Router basename="/shortener-app">
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route
