@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
+import { isTokenValid } from "../utils/auth";
 
 export default function Navbar() {
-  const isLogin = localStorage.getItem("jwt") !== null;
+  const isLogin = isTokenValid(localStorage.getItem("jwt"));
   const navigate = useNavigate();
 
   function logout() {
@@ -14,6 +15,14 @@ export default function Navbar() {
       <div className="flex-grow">
         <h1 className="text-2xl font-bold">短網址系統</h1>
       </div>
+      <Link className="text-gray-600 mr-6" to="/map">
+        地圖
+      </Link>
+      {!isLogin && (
+        <Link className="text-blue-500 mr-6" to="/login">
+          登入
+        </Link>
+      )}
       {isLogin && (
         <>
           <Link className="text-green-600 mr-6" to="/">
